@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class pagerank {
+public class PageRank {
    private static List<List<Integer>> graph = new ArrayList<List<Integer>> ();   //get(from).get(to)
    private static List<String> nodes = new ArrayList<String> ();               //List of names, same index across horizontal/vertical sides of matrix. same length as graph.size()
+   private static List<Double> pageRanks = new ArrayList<Double>();
+      
    public static void main(String[] args) {
       if(args.length != 1) {
          System.out.println("usage: PageRank <filename.csv>");
@@ -78,5 +80,86 @@ public class pagerank {
          System.out.println();
       }*/
    }
+  
+   private static int getOut(int ndx) {
+      int count = 0;
+
+      for (int i = 0; i < graph.size(); i++) 
+         if (graph.get(ndx).get(i) == 1)
+            count++;
+
+      return count;
+   }
+   
+   private static int getIn(int ndx) {
+      int count = 0;
+
+      for (int i = 0; i < graph.size(); i++) {
+         if (graph.get(i).get(ndx) == 1)
+            count++;
+      }
+      return count;
+   }
+
+   public static double getPageRank(int ndx) {
+      double d = 0.0;
+      double pr = 0.0;
+      double ppr = 0.0;
+
+
+      d = (double)getIn(ndx)/graph.size();
+
+      for (int i = 0; i < getOut(ndx); i++) {
+      //while diff is large enough
+      //for all incoming pages
+      // get page rank
+      // mult pr by 1/#out
+      //sum of ^
+       }   
+
+      
+      return 0.0;
+   }
+
+   //d = prob of clicking on any links on page
+   private static double pageRank(int ndx) {
+      double pr = 0.0;
+      double sum = 0.0;
+      ArrayList<Integer> in = new ArrayList<Integer>();
+      double d = (double)getOut(in.get(ndx))/graph.size();//maybe not size
+      ArrayList<Double> pprs = new ArrayList<Double>();
+
+      //find all in 
+      for (int i = 0; i < graph.size(); i++) {
+         if (graph.get(i).get(ndx) == 1)
+            in.add(i);
+      }
+
+      for (int i = 0; i < in.size(); i++) {
+         double prev = pageRank(in.get(i));
+         pprs.add(new Double(prev));
+         sum += (1/(double)getOut(in.get(i))) + prev; 
+      }
+
+      pr = (1-d)*(1/(double)graph.size()) + d * sum;
+
+      sum = 0.0;
+      for (int i = 0; i < pprs.size(); i++) {
+      }
+      return 0;
+   }
+
+   private static boolean stop() {
+
+      if (pageRanks.size() < graph.size()) 
+         return false;
+      
+      for (int i = 0; i < pageRanks.size(); i++) {
+
+
+
+      }
+   return false;
+   } 
    
 }
