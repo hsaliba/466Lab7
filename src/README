@@ -1,0 +1,11 @@
+PARTNERS:
+Stephanie Krapil (skrapil)
+Haikal Saliba (hsaliba)
+
+COMPILE INSTRUCTIONS:
+make
+
+RUN INSTRUCTIONS:
+java PageRank <filename.csv>
+
+
