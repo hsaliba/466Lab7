@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Comparator;
 
 public class PageRank {
    private static List<List<Integer>> graph = new ArrayList<List<Integer>> ();   //get(from).get(to)
@@ -28,11 +29,11 @@ public class PageRank {
 
       pageRanks = new double[graph.size()];
       for (int i = 0; i < graph.size(); i++)
-         System.out.println(pageRank(i, 2));
+         pageRanks[i] = pageRank(i, 10);
       TreeMap<Double, String> sorted = sortAll();
       int index = 1;
       for(Double i : sorted.keySet()) {
-        System.out.println(index + ": " + "obj: " + sorted.get(i) + " with pagerank: " + i); 
+        System.out.println(index++ + ". " + "obj: " + sorted.get(i) + " with pagerank: " + i); 
       }
    }
 
@@ -41,10 +42,10 @@ public class PageRank {
       for(int i = 0; i < nodes.size(); i++) {
         unsorted.put(pageRanks[i], nodes.get(i));
       }
-      System.out.println(unsorted.size());
-      TreeMap<Double, String> sorted = new TreeMap<Double, String> (unsorted);
-      System.out.println(sorted.size());
-      return sorted;
+      ValueComparator bvc =  new ValueComparator(unsorted);
+      TreeMap<Double, String> sorted_map = new TreeMap<Double, String> (bvc);
+      sorted_map.putAll(unsorted);
+      return sorted_map;
    }
 
    private static void parseGraphs(String file) throws FileNotFoundException {
@@ -181,4 +182,16 @@ public class PageRank {
       return false;
    } 
    
+  static class ValueComparator implements Comparator {
+
+  Map base;
+  public ValueComparator(Map base) {
+      this.base = base;
+  }
+
+  public int compare(Object a, Object b) {
+
+    return -1 * ((Double)a).compareTo((Double)b);
+  }
+}
 }
