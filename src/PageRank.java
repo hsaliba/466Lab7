@@ -22,10 +22,11 @@ public class PageRank {
          System.exit(-1);
       }
 
-      System.out.println(graph);
+
 
       pageRanks = new double[graph.size()];
-      System.out.println(pageRank(1));
+      for (int i = 0; i < graph.size(); i++)
+         System.out.println(pageRank(i, 2));
    }
 
    private static void parseGraphs(String file) throws FileNotFoundException {
@@ -106,7 +107,7 @@ public class PageRank {
    }
 
    //d = prob of clicking on any links on page
-   private static double pageRank(int ndx) {
+   private static double pageRank(int ndx, int count) {
       double pr = 0.0;
       double sum = 0.0;
       ArrayList<Integer> in = new ArrayList<Integer>();
@@ -114,6 +115,8 @@ public class PageRank {
       ArrayList<Double> pprs = new ArrayList<Double>();
 
       if (stop())
+         return (double)1/graph.size();
+      if (count == 0)
          return (double)1/graph.size();
 
       //find all in 
@@ -123,9 +126,9 @@ public class PageRank {
       }
 
       for (int i = 0; i < in.size(); i++) {
-         double prev = pageRank(in.get(i));
+         double prev = pageRank(in.get(i), count-1);
          pprs.add(new Double(prev));
-         sum += (1/(double)getOut(in.get(i))) + prev; 
+         sum += (1/(double)getOut(in.get(i))) * prev; 
       }
 
       pr = (1-d)*(1/(double)graph.size()) + d * sum;
@@ -143,8 +146,9 @@ public class PageRank {
       for (int i = 0; i < pageRanks.length; i++) {
          ArrayList<Integer> in = new ArrayList<Integer>();
          for (int j = 0; j < graph.size(); j++) {
-            if (graph.get(j).get(i) == 1) 
+            if (graph.get(j).get(i) == 1) {
                in.add(j);
+            }
           } 
          
           for (int j = 0; j < in.size(); j++) {
@@ -153,7 +157,7 @@ public class PageRank {
       }
 
       System.out.println("e: "+sum);
-      if (sum < 10)
+      if (sum < 100)
          return true; 
 
       return false;
