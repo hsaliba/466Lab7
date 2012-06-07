@@ -3,7 +3,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+import java.util.TreeMap;
+import java.util.Map;
+import java.util.HashMap;
 
 public class PageRank {
    private static List<List<Integer>> graph = new ArrayList<List<Integer>> ();   //get(from).get(to)
@@ -27,6 +29,22 @@ public class PageRank {
       pageRanks = new double[graph.size()];
       for (int i = 0; i < graph.size(); i++)
          System.out.println(pageRank(i, 2));
+      TreeMap<Double, String> sorted = sortAll();
+      int index = 1;
+      for(Double i : sorted.keySet()) {
+        System.out.println(index + ": " + "obj: " + sorted.get(i) + " with pagerank: " + i); 
+      }
+   }
+
+   private static TreeMap<Double, String> sortAll() {
+      Map<Double, String> unsorted = new HashMap<Double, String> ();
+      for(int i = 0; i < nodes.size(); i++) {
+        unsorted.put(pageRanks[i], nodes.get(i));
+      }
+      System.out.println(unsorted.size());
+      TreeMap<Double, String> sorted = new TreeMap<Double, String> (unsorted);
+      System.out.println(sorted.size());
+      return sorted;
    }
 
    private static void parseGraphs(String file) throws FileNotFoundException {
